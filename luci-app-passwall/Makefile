@@ -6,9 +6,9 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=luci-app-passwall
-PKG_VERSION:=3.9
-PKG_RELEASE:=73
-PKG_DATE:=20201012
+PKG_VERSION:=4
+PKG_RELEASE:=1
+PKG_DATE:=20201204
 
 PKG_BUILD_DIR := $(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -33,9 +33,13 @@ config PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server
 	bool "Include ShadowsocksR Server"
 	default y
 	
+config PACKAGE_$(PKG_NAME)_INCLUDE_Xray
+	bool "Include Xray"
+	default y if i386||x86_64||arm||aarch64
+	
 config PACKAGE_$(PKG_NAME)_INCLUDE_V2ray
 	bool "Include V2ray"
-	default y if i386||x86_64||arm||aarch64
+	default n
 
 config PACKAGE_$(PKG_NAME)_INCLUDE_Trojan_Plus
 	bool "Include Trojan_Plus"
@@ -101,6 +105,7 @@ define Package/$(PKG_NAME)
   +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR:shadowsocksr-libev-alt \
   +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR:shadowsocksr-libev-ssr-local \
   +PACKAGE_$(PKG_NAME)_INCLUDE_ShadowsocksR_Server:shadowsocksr-libev-server \
+  +PACKAGE_$(PKG_NAME)_INCLUDE_Xray:xray \
   +PACKAGE_$(PKG_NAME)_INCLUDE_V2ray:v2ray \
   +PACKAGE_$(PKG_NAME)_INCLUDE_Trojan_Plus:trojan-plus \
   +PACKAGE_$(PKG_NAME)_INCLUDE_Trojan_GO:trojan-go \
@@ -127,10 +132,14 @@ endef
 define Package/$(PKG_NAME)/conffiles
 /etc/config/passwall
 /etc/config/passwall_server
-/usr/share/passwall/rules/proxy_host
-/usr/share/passwall/rules/proxy_ip
 /usr/share/passwall/rules/direct_host
 /usr/share/passwall/rules/direct_ip
+/usr/share/passwall/rules/proxy_host
+/usr/share/passwall/rules/proxy_ip
+/usr/share/passwall/rules/proxy_host2
+/usr/share/passwall/rules/proxy_ip2
+/usr/share/passwall/rules/proxy_host3
+/usr/share/passwall/rules/proxy_ip3
 endef
 
 define Package/$(PKG_NAME)/install
